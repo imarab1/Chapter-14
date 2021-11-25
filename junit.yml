@@ -1,0 +1,16 @@
+name: junit
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '15'
+          java-package: jdk
+          architecture: x64
+      - run: javac -cp .:junit.jar *.java
+      - run: java -jar junit.jar -cp . --scan-classpath
+      - run: javadoc -d out -cp junit.jar *.java
